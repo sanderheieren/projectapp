@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
+const cors = require("cors");
 const mongoose = require("mongoose");
 const authRoute = require("./routes/auth");
 const postRoute = require("./routes/posts");
@@ -11,8 +12,14 @@ mongoose.connect(
 );
 
 app.use(express.json());
+app.use(
+  cors({
+    origin: "http://localhost:3000", // <-- location of the react app were connecting to
+    credentials: true,
+  })
+);
 
 app.use("/api/posts", postRoute);
 
 app.use("/api/user", authRoute);
-app.listen(3001, () => console.log("Server Up"));
+app.listen(3002, () => console.log("Server Up"));
